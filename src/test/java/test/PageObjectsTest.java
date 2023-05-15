@@ -1,15 +1,11 @@
 package test;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import data.DataHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import page.LoginPageV1;
 
-import javax.swing.*;
-
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -18,21 +14,21 @@ public class PageObjectsTest {
 
     @BeforeEach
     void setup() {
-        open("http://localhost:9999");
+        open("http://localhost:9999"); //java -jar app-ibank-build-for-testers.jar
         Configuration.holdBrowserOpen = true;
         var authInfo = DataHelper.getAuthInfo();
-        var verificationCode = DataHelper.getVerificationCodeFor(authInfo);
+        var verificationCode = DataHelper.getVerificationCodeFor();
         new LoginPageV1()
                 .validLogin(authInfo)
                 .validVerify(verificationCode);
     }
 
     @Test
-    void shouldTransferMoneySecondCard() {
+    void shouldTransferMoneySecondCard() throws InterruptedException {
         $("[data-test-id=\"action-deposit\"]").click();
-        $("[data-test-id=\"amount\"] input").setValue(String.valueOf(money));
+        Thread.sleep(10000);
+//        $("[data-test-id=\"amount\"] input").setValue(String.valueOf(money));
+
     }
 }
-    //$("[data-test-id=\"login\"] input").setValue(info.getLogin());
-        //$("[data-test-id=\"password\"] input").setValue(info.getPassword());
-        //$("[data-test-id=\"action-login\"]").click();
+
